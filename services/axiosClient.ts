@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = process.env.NEXT_PUBLIC_FRONTEND_URL;
+const BASE_URL = process.env.NEXT_FRONTEND_URL;
 
 const axiosClient = axios.create({
   baseURL: BASE_URL,
