@@ -48,21 +48,20 @@ export default function Footer() {
       links: [
         { id: "how-it-works", text: "How It Works", path: "/how-it-works" },
         { id: "pricing", text: "Pricing", path: "/pricing" },
-        { id: "faq", text: "FAQ", path: "/faq" },
+        { id: "faq", text: "FAQ", path: "/contact/#faqs" },
       ],
     },
     {
       title: "Company",
       links: [
         { id: "about-us", text: "About Us", path: "/about-us" },
-        { id: "careers", text: "Careers", path: "/careers" },
         { id: "blog", text: "Blog", path: "/blogs" },
         {
           id: "privacy-policy",
           text: "Privacy Policy",
           path: "/privacy-policy",
         },
-        { id: "contact-us", text: "Contact Us", path: "/contact-us" },
+        { id: "contact-us", text: "Contact Us", path: "/contact" },
       ],
     },
     {

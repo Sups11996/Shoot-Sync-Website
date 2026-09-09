@@ -2,7 +2,9 @@ import axiosClient from "../axiosClient";
 
 export const api = {
   // GET /blog
-  getBlogs: (params = {}) => axiosClient.get("/blog", { params }),
+   getBlogs: () => axiosClient.get("/blog", { params:{
+    page_size:50
+  }}),
 
   // GET /blog/:id
   getBlogById: (id: string) => axiosClient.get(`/blog/${id}`),

@@ -1,9 +1,12 @@
 "use client";
 
 import PricingCard, { type PricingPlan } from "./PricingCard";
+import PricingSectionSkeleton from "./PricingCardSkeleton";
 
 import PillBadge from "@/components/common/PillBadge";
 import MainHeading from "@/components/common/MainHeading";
+import ErrorState from "@/components/common/ErrorState";
+import EmptyState from "@/components/common/EmptyState";
 
 import useApi from "@/hooks/useApi";
 import api, { type PricingApiResponse } from "@/services/api/pricing";
@@ -19,6 +22,7 @@ export default function PricingSection({
     data: pricingResponse,
     loading,
     error,
+    refetch,
   } = useApi<PricingApiResponse>(api.getPricing);
 
   const plans: PricingPlan[] =
@@ -61,28 +65,21 @@ export default function PricingSection({
       )}
 
       <div className="w-full bg-white px-5 pb-10 pt-8 sm:px-10 lg:px-16">
-        {loading && (
-          <div className="flex min-h-50 items-center justify-center">
-            <p className="text-slate-500">
-              Loading plans...
-            </p>
-          </div>
-        )}
+        {loading && <PricingSectionSkeleton />}
 
         {!loading && errorMessage && (
-          <div className="flex min-h-50 items-center justify-center">
-            <p className="text-red-500">
-              Failed to load pricing plans. Please try again.
-            </p>
-          </div>
+          <ErrorState
+            title="Failed to load pricing plans"
+            message={errorMessage}
+            onRetry={refetch}
+          />
         )}
 
         {!loading && !errorMessage && plans.length === 0 && (
-          <div className="flex min-h-50 items-center justify-center">
-            <p className="text-slate-500">
-              No pricing plans are available at the moment.
-            </p>
-          </div>
+          <EmptyState
+            title="No pricing plans available"
+            message="Check back later for available plans."
+          />
         )}
 
         {!loading && !errorMessage && plans.length > 0 && (

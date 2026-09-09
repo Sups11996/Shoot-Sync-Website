@@ -7,6 +7,40 @@ import { useApi } from "@/hooks/useApi";
 import { testimonialApi } from "@/services/api/testimonial";
 import PillBadge from "@/components/common/PillBadge";
 import { resolveImage } from "@/app/blogs/[slug]/components/utils";
+import { Skeleton } from "@/components/common/Skeleton";
+import ErrorState from "@/components/common/ErrorState";
+import EmptyState from "@/components/common/EmptyState";
+
+function TestimonialsSkeleton() {
+  return (
+    <section className="w-full min-w-0 overflow-hidden bg-white">
+      <div className="w-full min-w-0 px-6 sm:px-10 lg:px-16">
+        <div className="flex w-full flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+          <div className="min-w-0 flex-1">
+            <Skeleton className="mb-3 h-7 w-40 rounded-full" />
+            <Skeleton className="h-9 w-72 max-w-full" />
+            <Skeleton className="mt-3 h-4 w-56" />
+          </div>
+          <div className="hidden shrink-0 items-center gap-3 sm:flex">
+            <Skeleton className="h-11 w-11 rounded-lg" />
+            <Skeleton className="h-11 w-11 rounded-lg" />
+          </div>
+        </div>
+      </div>
+
+      <div className="w-full min-w-0 overflow-hidden pl-6 sm:pl-10 lg:pl-16">
+        <div className="mt-5 flex w-full min-w-0 max-w-full gap-4 overflow-hidden pb-2">
+          {Array.from({ length: 4 }).map((_, i) => (
+            <Skeleton
+              key={i}
+              className="aspect-3/4 w-[78%] max-w-[78%] shrink-0 rounded-[22px] sm:w-70 sm:max-w-none md:w-65 lg:w-70 xl:w-75"
+            />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
 
 export default function Testimonials() {
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -30,27 +64,28 @@ export default function Testimonials() {
   }, []);
 
   if (loading) {
-    return (
-      <section className="w-full bg-white px-6 py-16 text-center sm:px-10 lg:px-16">
-        <p className="text-sm text-neutral-500">Loading testimonials...</p>
-      </section>
-    );
+    return <TestimonialsSkeleton />;
   }
 
   if (error) {
     return (
-      <section className="w-full bg-white px-6 py-16 text-center sm:px-10 lg:px-16">
-        <p className="text-sm text-red-500">Failed to load testimonials.</p>
+      <section className="w-full bg-white px-6 py-16 sm:px-10 lg:px-16">
+        <ErrorState
+          title="Couldn't load testimonials"
+          message="Something went wrong while fetching testimonials. Please try again."
+          onRetry={() => window.location.reload()}
+        />
       </section>
     );
   }
 
   if (!testimonials || testimonials.length === 0) {
     return (
-      <section className="w-full bg-white px-6 py-20 text-center sm:px-10 lg:px-16">
-        <p className="text-2xl font-medium text-neutral-500">
-          No testimonials available yet.
-        </p>
+      <section className="w-full bg-white px-6 py-20 sm:px-10 lg:px-16">
+        <EmptyState
+          title="No testimonials yet"
+          message="Check back later to see what teams are saying."
+        />
       </section>
     );
   }
@@ -122,7 +157,7 @@ export default function Testimonials() {
                 </div>
               )}
 
-              <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/70 to-transparent" />
+              <div className="absolute inset-x-0 bottom-0 h-1/3 bg-linear-to-t from-black/70 to-transparent" />
 
               <div className="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full bg-[#017958]">
                 <Play
